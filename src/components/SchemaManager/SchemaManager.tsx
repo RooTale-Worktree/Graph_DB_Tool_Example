@@ -1,12 +1,11 @@
 import { useState, useEffect } from 'react';
-import { GraphSchema, NodeSchema, PropertyDefinition, SchemaChangeLog } from '../../types/schema';
+import { GraphSchema, PropertyDefinition, SchemaChangeLog } from '../../types/schema';
 import { schemaApi } from '../../services/api';
 import './SchemaManager.css';
 
 export default function SchemaManager() {
   const [schema, setSchema] = useState<GraphSchema | null>(null);
   const [loading, setLoading] = useState(true);
-  const [editingNodeType, setEditingNodeType] = useState<string | null>(null);
   const [changeLogs, setChangeLogs] = useState<SchemaChangeLog[]>([]);
   const [showLogs, setShowLogs] = useState(false);
 
@@ -39,7 +38,7 @@ export default function SchemaManager() {
   const handleAddProperty = async (nodeType: string) => {
     if (!schema) return;
 
-    const updatedSchema = {
+    const updatedSchema: GraphSchema = {
       ...schema,
       nodeSchemas: schema.nodeSchemas.map(ns =>
         ns.nodeType === nodeType
@@ -47,14 +46,13 @@ export default function SchemaManager() {
               ...ns,
               properties: [
                 ...ns.properties,
-                { name: '', type: 'string', required: false },
+                { name: '', type: 'string' as PropertyDefinition['type'], required: false },
               ],
             }
           : ns
       ),
     };
     setSchema(updatedSchema);
-    setEditingNodeType(nodeType);
     
     // 로그 기록
     await schemaApi.addSchemaChangeLog({
@@ -133,7 +131,6 @@ export default function SchemaManager() {
       await loadChangeLogs();
       
       alert('스키마가 저장되었습니다.');
-      setEditingNodeType(null);
     } catch (error) {
       console.error('Failed to save schema:', error);
       alert('스키마 저장에 실패했습니다.');

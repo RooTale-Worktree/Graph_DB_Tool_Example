@@ -1,11 +1,11 @@
-import { GraphSchema, NodeSchema, PropertyDefinition, SchemaChangeLog } from '../types/schema';
-import { GraphMetadata, UploadedGraphData, GraphNode } from '../types/graph';
+import { GraphSchema, NodeSchema, SchemaChangeLog } from '../types/schema';
+import { GraphMetadata, UploadedGraphData } from '../types/graph';
 import { PropertyMapping } from '../types/schema';
 
 // Neo4j Graph DB가 있다고 가정하고 API 호출 구조만 정의
 // 실제 구현 시 axios 등을 사용하여 백엔드 API 호출
 
-const API_BASE_URL = '/api'; // 백엔드 API 베이스 URL
+// const API_BASE_URL = '/api'; // 백엔드 API 베이스 URL
 
 // 스키마 관련 API
 export const schemaApi = {
